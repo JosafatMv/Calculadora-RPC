@@ -1,6 +1,11 @@
 package server;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+@XmlRootElement(name="BeanOperation")
+@XmlAccessorType(XmlAccessType.FIELD)
 
 public class BeanOperation {
     private int id;

@@ -77,53 +77,49 @@ public class Methods {
         return result;
     }
 
-    public List<BeanOperation> getOperations() throws JAXBException {
-        List<BeanOperation> operations;
+    public String getOperations() throws JAXBException {
         DaoMethods daoMethods = new DaoMethods();
-        operations = daoMethods.getOperations();
-//        BeanOperation operation = operations.get(0);
+        Operations operations = new Operations();
+        operations.setEmployees(daoMethods.getOperations());
 
-//        String xmlString =  jaxbObjectToXML(operation);
-//        System.out.println("met"+xmlString);
-//
-//        return xmlString;
+        String xmlString =  jaxbObjectToXML(operations);
+        System.out.println("met"+xmlString);
 
-        return operations;
+        return xmlString;
     }
 
-//    private static String jaxbObjectToXML(BeanOperation operation)
-//    {
-//        String xmlContent = "";
-//
-//        try
-//        {
-//            //Create JAXB Context
-//            JAXBContext jaxbContext = JAXBContext.newInstance(BeanOperation.class);
-//
-//            //Create Marshaller
-//            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-//
-//            //Required formatting??
-//            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-//
-//            //Print XML String to Console
-//            StringWriter sw = new StringWriter();
-//
-//            //Write XML to StringWriter
-////            jaxbMarshaller.marshal(operation, sw);
-//            jaxbMarshaller.marshal( new JAXBElement<BeanOperation>(new QName("uri","local"), BeanOperation.class, operation), System.out );
-//
-//            //Verify XML Content
-//            xmlContent = sw.toString();
-//            System.out.println( xmlContent );
-//
-//            return xmlContent;
-//
-//        } catch (JAXBException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println("xml "+xmlContent);
-//        return xmlContent;
-//    }
+    private static String jaxbObjectToXML(Operations operations){
+        String xmlContent = "";
+
+        try
+        {
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(Operations.class);
+
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            //Print XML String to Console
+            StringWriter sw = new StringWriter();
+
+            //Write XML to StringWriter
+            jaxbMarshaller.marshal(operations, sw);
+//            jaxbMarshaller.marshal( new JAXBElement<BeanOperation>(new QName("uri","local"), BeanOperation.class, operation), sw );
+
+            //Verify XML Content
+            xmlContent = sw.toString();
+            System.out.println(xmlContent);
+
+            return xmlContent;
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+        System.out.println("xml "+xmlContent);
+        return xmlContent;
+    }
 
 }

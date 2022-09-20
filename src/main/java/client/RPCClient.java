@@ -4,6 +4,7 @@ import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import server.BeanOperation;
+import server.Operations;
 
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
@@ -12,7 +13,6 @@ import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 import java.util.Scanner;
 
 public class RPCClient {
@@ -101,17 +101,20 @@ public class RPCClient {
                         System.out.println("----Registro de operaciones-----");
 
                         //Llamada al servicio
-                        List<BeanOperation> operations = (List<BeanOperation>) client.execute("Methods.getOperations", (Object[]) null);
-//                        String operations = (String) client.execute("Methods.getOperations", (Object[]) null);
-
-                        //No se pudo hacer
-
-//                        JAXBContext jaxbContext = JAXBContext.newInstance(BeanOperation.class);
-//                        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-//                        String xmlString = "...";
-//                        System.out.println("Opr"+operations);
-//                        BeanOperation operation = (BeanOperation) jaxbUnmarshaller.unmarshal(new StringReader(operations));
-//                        System.out.println(operation);
+                        String operations = (String) client.execute("Methods.getOperations", (Object[]) null);
+                        JAXBContext jaxbContext = JAXBContext.newInstance(Operations.class);
+                        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+                        Operations operationsList = (Operations) jaxbUnmarshaller.unmarshal(new StringReader(operations));
+                        for (BeanOperation operation:
+                             operationsList.getOperations()) {
+                            System.out.println("ID: "+operation.getId());
+                            System.out.println("Operación: "+operation.getOperation());
+                            System.out.println("Numero 1: "+operation.getNumber1());
+                            System.out.println("Numero 2: "+operation.getNumber2());
+                            System.out.println("Resultado: "+operation.getResult());
+                            System.out.println("Creado el: "+operation.getCreatedAt());
+                            System.out.println("");
+                        }
 
                         break;
                     case 8:
